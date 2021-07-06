@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 import time
 
-import contest_structure.data_class as data_class
+import data_class
 
 def create_browser():
     codechef_url = 'https://www.codechef.com/contests'
