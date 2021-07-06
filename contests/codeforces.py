@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 import time
 
-import data_structure.data_class as data_class
+import contest_structure.data_class as data_class
 
 
 def create_browser():
@@ -39,7 +39,7 @@ def get_upcoming_contests(dict_x,time_list):
             len_co= timedelta(hours=t.hour, minutes=t.minute)
         
         st = datetime.strptime(stime.text.strip(),"%b/%d/%Y %H:%MUTC+5.5")
-        Id = '0000'
+        Id = tr['data-contestid']
         contest = data_class.Contest(
             Id,
             codeforces_url+'/'+Id,
