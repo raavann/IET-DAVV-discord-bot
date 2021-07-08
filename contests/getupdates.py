@@ -1,10 +1,11 @@
 import time
 from datetime import datetime, timedelta
+import asyncio
 
 import contests.codechef as codechef
 import contests.codeforces as codeforces
 
-if __name__ == '__main__' :
+async def get_updates():
     # [code] -> [link, name, start_T, end_T]
     codechef.create_browser()
     codeforces.create_browser()
@@ -19,10 +20,9 @@ if __name__ == '__main__' :
         codeforces.get_upcoming_contests(dict_of_contests,time_list)
         time_list.sort(key =lambda t:t.time_)
 
-        #write in log file
         if len(time_list)==0:
             print('nothing found')
-            time.sleep(7200)
+            asyncio.sleep(7200)
             continue
         
         for index,dtime in enumerate(time_list):
