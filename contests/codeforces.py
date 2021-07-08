@@ -1,8 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 from datetime import datetime,timedelta
-import time
 
 import contests.data_class as data_class
 
@@ -11,12 +11,13 @@ def create_browser():
     global codeforces_url
     codeforces_url = 'https://codeforces.com/contests'
 
-    path = 'C:\edgedriver\msedgedriver.exe'
-
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+  
     global codeforces_browser
-    codeforces_browser = webdriver.Edge(path)
+    codeforces_browser = webdriver.Chrome(options=chrome_options)
     codeforces_browser.get(codeforces_url)
-    time.sleep(1)
 
 def get_upcoming_contests(dict_x,time_list):
     codeforces_browser.refresh()

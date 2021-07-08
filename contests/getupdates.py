@@ -4,6 +4,7 @@ import asyncio
 
 import contests.codechef as codechef
 import contests.codeforces as codeforces
+import dscrd.embds as embds
 
 async def get_updates():
     # [code] -> [link, name, start_T, end_T]

@@ -1,18 +1,21 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 from datetime import datetime,timedelta
-import time
 
 import contests.data_class as data_class
 
 def create_browser():
     codechef_url = 'https://www.codechef.com/contests'
-    path = 'C:\edgedriver\msedgedriver.exe'
+
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
     global codechef_browser 
-    codechef_browser = webdriver.Edge(path)
+    codechef_browser = webdriver.Chrome(options=chrome_options)
     codechef_browser.get(codechef_url)
-    time.sleep(1)
 
 #get data of contest that started, but has not ended yet.
 def get_present_contests(dict_x,time_list):
