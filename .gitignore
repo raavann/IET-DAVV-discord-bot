@@ -1,5 +1,0 @@
-*.db
-*.db-journal
-__pychache__
-test.py
-.env
