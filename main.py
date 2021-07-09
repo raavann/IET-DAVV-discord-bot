@@ -1,11 +1,7 @@
 from keep_alive import keep_alive
 import os
 import discord
-from discord import guild
-from discord.utils import find
-from discord.ext import commands,tasks
-import asyncio
-from datetime import datetime,timedelta
+from discord.ext import commands
 
 from contests.getupdates import get_updates
 import db.server_data as server_data
@@ -73,21 +69,21 @@ async def meme(ctx):
 @client.group(invoke_without_command = True)
 async def help(ctx):
     em= discord.Embed(title="Help!",description="Hi there, my prefix is `'senpai '`.\nFollowing are all the commands, use `senpai help <command>` for extended information on a command.", color=ctx.author.color)
-    em.add_field(name="Admin commands: ", value="checkchannel, alterchannel")
+    em.add_field(name="Admin commands: ", value="checkchannel, altchannel")
     em.add_field(name="General commands: ",value = "meme")
 
     await ctx.send(embed=em)
 
 @help.command()
 async def checkchannel(ctx):
-    em=discord.Embed(title="checkchannel(only admins)", description="Returns the channel on which updates would be sent.", color=ctx.author.color)
+    em=discord.Embed(title="checkchannel (only admins)", description="Returns the channel on which updates would be sent.", color=ctx.author.color)
     em.add_field(name="Syntax", value="`senpai checkchannel`")
     em.add_field(name = "aliases", value="announcement? \n*Syntax* `senpai announcement?`")
     await ctx.send(embed=em)
 
 @help.command()
 async def altchannel(ctx):
-    em=discord.Embed(title="altchannel(only admins)", description="Changes the channel on which updates are being sent!", color=ctx.author.color)
+    em=discord.Embed(title="altchannel (only admins)", description="Changes the channel on which updates are being sent!", color=ctx.author.color)
     em.add_field(name="Syntax", value="`senpai altchannel <new channel name>`")
     em.add_field(name = "aliases", value="announcement? \n*Syntax* `senpai announcement= <new channel name>`")
     await ctx.send(embed=em)
