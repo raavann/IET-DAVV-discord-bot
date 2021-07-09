@@ -10,13 +10,13 @@ sqlite3.register_converter("bool", lambda v: bool(int(v)))
 
 try:
     cur.execute('''CREATE TABLE contest_data(
-        id text primary key,
+        id text primarcy key,
         link text,
         name text,
         start_time timestamp,
         end_time timestamp,
-        rem_1d bool,
-        rem_1h bool
+        day1_rem bool,
+        hour1_rem bool
     )
     ''')
 except:
@@ -32,12 +32,14 @@ def insert_cont(cont):
 
 #return Contest object
 def get_cont_by_id(id):
-    cur.execute("SELECT id,link,name,start_time,end_time,rem_1d,rem_1h FROM contest_data WHERE id=:id", {'id': id})
+    cur.execute("SELECT id,link,name,start_time,end_time,day1_rem,hour1_rem FROM contest_data WHERE id=:id", {'id': id})
     dt = cur.fetchone()
     if (dt == None):
         return None
     else:
-        return Contest(*cur.fetchone())
+        cont = Contest(dt[0],dt[1],dt[2],dt[3],dt[4],dt[5],dt[6])
+        return cont
+        # return Contest(*cur.fetchone())
 
 #create time list of Time_List object sorts it and send it
 def get_time_list():
@@ -51,21 +53,21 @@ def get_time_list():
     return timelist
 
 def get_rd1_by_id(id):
-    cur.execute("SELECT rem_1d FROM contest_data WHERE id=:id", {'id': id})
+    cur.execute("SELECT day1_rem FROM contest_data WHERE id=:id", {'id': id})
     return cur.fetchone()[0]
 
 
 def get_rh1_by_id(id):
-    cur.execute("SELECT rem_1h FROM contest_data WHERE id=:id", {'id': id})
+    cur.execute("SELECT hour1_rem FROM contest_data WHERE id=:id", {'id': id})
     return cur.fetchone()[0]
 
 def update_rd1(id,val):
     with con:
-        cur.execute("""UPDATE contest_data SET rem_1d = :val WHERE id = :id""",{'val': val, 'id': id})
+        cur.execute("""UPDATE contest_data SET day1_rem = :val WHERE id = :id""",{'val': val, 'id': id})
 
 def update_rh1(id,val):
     with con:
-        cur.execute("""UPDATE contest_data SET rem_1h = :val WHERE id = :id""",{'val': val, 'id': id})
+        cur.execute("""UPDATE contest_data SET hour1_rem = :val WHERE id = :id""",{'val': val, 'id': id})
 
 def remove_cont(id):
     with con:

@@ -2,7 +2,8 @@ import random
 from discord import Embed, Colour
 import json
 
-obj = json.loads((open('data.json','r',encoding='utf-8')).read())
+
+obj = json.loads((open('./dscrd/data.json','r',encoding='utf-8')).read())
 
 salutation = (obj["salutation"])
 ended = (obj["ended"])
@@ -20,19 +21,19 @@ def random_cheer():
 def random_greeting():
     return random.choice(greetings)
 
-def embed_1drem(cont,ctx):
+def embed_1drem(cont,avtr):
     desc = random_salutation() + '\n{name} will start tomorrow @{st}! \n[Click here]({link}) to know more! \n{cheer}'.format(name=cont.name, link= cont.link, st = str(cont.start_time.strftime("%I %p")).lower(),cheer= random_greeting())
     embd = Embed(title = "Contest update!", description=desc,colour=Colour.dark_blue())
     embd.set_thumbnail (url = logo[cont.link[16]])
-    embd.set_footer(text = str(random_cheer()), icon_url = ctx.guild.me.avatar_url)
+    embd.set_footer(text = str(random_cheer()), icon_url = avtr)
    
     return embd
 
-def embed_1hrem(cont,ctx):
+def embed_1hrem(cont,avtr):
     desc = random_salutation() + '\n{name} will start {tod_hr} @{st}! \n[Click here]({link}) to join the contest! \n{cheer}'.format(name=cont.name,tod_hr=random.choice(['today','in an hour']), link=cont.link,st=str(cont.start_time.strftime("%I %p")).lower(),cheer= random_greeting())
     embd = Embed(title = "Contest update!", description = desc,colour= Colour.green())
     embd.set_thumbnail(url=logo[cont.link[16]] )
-    embd.set_footer(text = str(random_cheer()), icon_url = ctx.guild.me.avatar_url)
+    embd.set_footer(text = str(random_cheer()), icon_url = avtr)
 
     return embd
 
@@ -53,15 +54,3 @@ def hi_guild(gld):
     embd.add_field(name="My Job!", value="I'll be sending regular updates on Codechef and Codeforces Contest on the channel specified by admin.\nType `senpai help` to know more.")
 
     return embd
-
-def altchnl_done():
-    pass
-
-def altchnl_notdone():
-    pass
-
-def no_chnl_set():
-    pass
-
-def chnl_set():
-    pass

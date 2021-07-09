@@ -43,12 +43,11 @@ def get_present_contests():
 
 
 def get_upcoming_contests():
-################################ past contest for testing ###################################3
     codechef_browser.refresh()
     html = codechef_browser.page_source
     codechef_page = BeautifulSoup(html,'lxml')
 
-    table_html = codechef_page.find(id = 'past-contests-data')
+    table_html = codechef_page.find(id = 'future-contests-data')
     table_rows = table_html.find_all('tr')
 
     for tr in table_rows:
