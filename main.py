@@ -7,6 +7,7 @@ from contests.getupdates import get_updates
 import db.server_data as server_data
 import dscrd.prw as prw
 from keep_alive import keep_alive
+from dscrd.embds import hi_guild
 
 discord_token = os.environ['discord_senpai_bot_secret_key']
 
@@ -36,6 +37,7 @@ async def on_guild_join(guild):
     embd = discord.Embed(description= "Hie there :D, \nI will be sending updates on channel `{cx}` for your server `{s}`. \nTo change these settings type `senpai help` on the respective server!\nThanks <3!".format(cx=chnl.name,s=guild.name),color=discord.Color.orange())
     embd.set_thumbnail(url=client.user.avatar_url)
     await guild.owner.send(embed=embd)
+    await guild.channel.send(embed=hi_guild())
 
 ################################COMMANDSS########################
 @client.command(name = "alterchannel", aliases = ["announcement="])
