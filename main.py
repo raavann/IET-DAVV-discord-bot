@@ -32,12 +32,11 @@ async def on_guild_join(guild):
                 break
             else:
                 chnl = c
-    
     server_data.insert_serv(guild.id, c.id)
     embd = discord.Embed(description= "Hie there :D, \nI will be sending updates on channel `{cx}` for your server `{s}`. \nTo change these settings type `senpai help` on the respective server!\nThanks <3!".format(cx=chnl.name,s=guild.name),color=discord.Color.orange())
     embd.set_thumbnail(url=client.user.avatar_url)
     await guild.owner.send(embed=embd)
-    await guild.channel.send(embed=hi_guild())
+    await c.send(embed=hi_guild())
 
 ################################COMMANDSS########################
 @client.command(name = "alterchannel", aliases = ["announcement="])
