@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
 import contests.data_class as data_class
-
+import db.contest_data as contest_data
 
 def create_browser():
     global codeforces_url
@@ -19,7 +19,7 @@ def create_browser():
     codeforces_browser = webdriver.Chrome(options=chrome_options)
     codeforces_browser.get(codeforces_url)
 
-def get_upcoming_contests(dict_x,time_list):
+def get_upcoming_contests():
     codeforces_browser.refresh()
     html = codeforces_browser.page_source
     codeforces_page = BeautifulSoup(html,'lxml')
@@ -49,8 +49,6 @@ def get_upcoming_contests(dict_x,time_list):
             st+len_co,
         )
 
-        #only add in dictionary dict_x if the 'code' is not already present
-        if contest.id not in dict_x:
-            dict_x[contest.id] = [contest]
-            time_list.append(data_class.Time_List(contest.start_time,'s',contest.id))
-            time_list.append(data_class.Time_List(contest.end_time,'e',contest.id))
+        #insert into database, exception handling already done
+        contest_data.insert_cont(contest)
+

@@ -16,3 +16,5 @@ class Time_List:
     time_ : datetime #start time and endtime
     char_ : str         #'s' is starttime, 'e' is endtime
     id_ : str           #contest-id
+    day1_rem :bool
+    hour1_rem: bool

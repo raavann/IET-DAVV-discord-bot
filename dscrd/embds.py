@@ -25,9 +25,7 @@ def embed_1drem(cont,ctx):
     embd = Embed(title = "Contest update!", description=desc,colour=Colour.dark_blue())
     embd.set_thumbnail (url = logo[cont.link[16]])
     embd.set_footer(text = str(random_cheer()), icon_url = ctx.guild.me.avatar_url)
-    # embd.set_author(name = 'Codechef' if cont.link[16]=='c' else 'Codeforces',url="https://twitter.com/chetan_bhagat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",icon_url="https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg")
-    # embd.set_image(url = 'https://thumbs.dreamstime.com/z/grunge-office-stamp-final-3069165.jpg')
-
+   
     return embd
 
 def embed_1hrem(cont,ctx):

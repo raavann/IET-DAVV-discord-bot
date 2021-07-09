@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
 import contests.data_class as data_class
+import db.contest_data as contest_data
 
 def create_browser():
     codechef_url = 'https://www.codechef.com/contests'
@@ -18,7 +19,7 @@ def create_browser():
     codechef_browser.get(codechef_url)
 
 #get data of contest that started, but has not ended yet.
-def get_present_contests(dict_x,time_list):
+def get_present_contests():
     codechef_browser.refresh()
     html = codechef_browser.page_source
     codechef_page = BeautifulSoup(html,'lxml')
@@ -38,12 +39,10 @@ def get_present_contests(dict_x,time_list):
         ) 
         #only upto long challenges(10)
         if contest.end_time <= (datetime.now()+timedelta(days=10)):
-            dict_x[contest.id] = [contest]
-            time_list.append(data_class.Time_List(contest.start_time,'s',contest.id))
-            time_list.append(data_class.Time_List(contest.end_time,'e',contest.id))
+            contest_data.insert_cont(contest)
 
 
-def get_upcoming_contests(dict_x,time_list):
+def get_upcoming_contests():
 ################################ past contest for testing ###################################3
     codechef_browser.refresh()
     html = codechef_browser.page_source
@@ -61,10 +60,7 @@ def get_upcoming_contests(dict_x,time_list):
             name.text,
             datetime.strptime(start_time_str.text, "%d %b %Y  %H:%M:%S"),
             datetime.strptime(end_time_str.text, "%d %b %Y  %H:%M:%S"),
-        ) 
+        )
 
-        #only add in dictionary dict_x if the 'code' is not already present
-        if contest.id not in dict_x:
-            dict_x[contest.id] = [contest]
-            time_list.append(data_class.Time_List(contest.start_time,'s',contest.id))
-            time_list.append(data_class.Time_List(contest.end_time,'e',contest.id))
+        #insert into database, exception handling already done
+        contest_data.insert_cont(contest)
