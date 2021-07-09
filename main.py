@@ -42,7 +42,7 @@ async def on_guild_join(guild):
 ################################COMMANDSS########################
 @client.command(name = "alterchannel", aliases = ["announcement="])
 @commands.has_permissions(administrator = True)
-async def altchannel(ctx, given_name):
+async def alterchannel(ctx, given_name):
     notdone = True
     for channel in ctx.guild.channels:
         if (channel.name == given_name and channel.permissions_for(ctx.guild.me).send_messages ==True):
@@ -71,7 +71,7 @@ async def meme(ctx):
 @client.group(invoke_without_command = True)
 async def help(ctx):
     em= discord.Embed(title="Help!",description="Hi there, my prefix is `'senpai '`.\nFollowing are all the commands, use `senpai help <command>` for extended information on a command.", color=ctx.author.color)
-    em.add_field(name="Admin commands: ", value="checkchannel, altchannel")
+    em.add_field(name="Admin commands: ", value="checkchannel, alterchannel")
     em.add_field(name="General commands: ",value = "meme")
 
     await ctx.send(embed=em)
@@ -84,8 +84,8 @@ async def checkchannel(ctx):
     await ctx.send(embed=em)
 
 @help.command()
-async def altchannel(ctx):
-    em=discord.Embed(title="altchannel (only admins)", description="Changes the channel on which updates are being sent!", color=ctx.author.color)
+async def alterchannel(ctx):
+    em=discord.Embed(title="alterchannel (only admins)", description="Changes the channel on which updates are being sent!", color=ctx.author.color)
     em.add_field(name="Syntax", value="`senpai altchannel <new channel name>`")
     em.add_field(name = "aliases", value="announcement? \n*Syntax* `senpai announcement= <new channel name>`")
     await ctx.send(embed=em)
