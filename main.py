@@ -96,6 +96,12 @@ async def meme(ctx):
     em.add_field(name = "aliases", value="bleh, agh \n*Syntax* `senpai bleh` `senpai agh`")
     await ctx.send(embed=em)
 
+@client.event 
+async def on_command_error(ctx, error): 
+    if isinstance(error, commands.CommandNotFound): 
+        em = discord.Embed(title="Error!!!", description="Command not found.", color=ctx.author.color) 
+        await ctx.send(embed=em)
+
 
 keep_alive()
 
