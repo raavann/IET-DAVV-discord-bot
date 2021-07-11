@@ -1,4 +1,3 @@
-from contests.data_class import Time_List
 import time
 from datetime import datetime, timedelta
 import asyncio
@@ -8,7 +7,6 @@ import contests.codeforces as codeforces
 import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
-from discord import client
 import dscrd.embds as embds
 
 async def send_updates(emb,client):
@@ -19,8 +17,6 @@ async def send_updates(emb,client):
 async def get_updates(client):
     # [code] -> [link, name, start_T, end_T]
     codechef.create_browser()
-    codeforces.create_browser()
-
     codechef.get_present_contests()
 
     while(True):
