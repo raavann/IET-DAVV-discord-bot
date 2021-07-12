@@ -16,7 +16,7 @@ def get_upcoming_contests():
         st = datetime.fromtimestamp(item['startTimeSeconds'])
         et = st+lenco
         x = str(item['id'])
-        link = "".join(['https://codeforces.com/contests/',x])
+        link = "".join(['https://www.codeforces.com/contests/',x])
         cont = Contest(item['id'],link,item['name'] ,st,et)
         
         insert_cont(cont)
