@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-
+import os
 from datetime import datetime,timedelta
 
 import contests.data_class as data_class
