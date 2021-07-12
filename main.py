@@ -6,7 +6,6 @@ from discord.ext import commands
 from contests.getupdates import get_updates
 import db.server_data as server_data
 import dscrd.prw as prw
-from keep_alive import keep_alive
 from dscrd.embds import hi_guild
 
 discord_token = os.environ['discord_senpai_bot_secret_key']
