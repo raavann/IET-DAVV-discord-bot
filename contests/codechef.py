@@ -11,13 +11,16 @@ def create_browser():
     codechef_url = 'https://www.codechef.com/contests'
 
     chrome_options = Options()
+    #15 for heroku
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
-
+    
     global codechef_browser 
-    codechef_browser = webdriver.Chrome(options=chrome_options)
+    codechef_browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     codechef_browser.get(codechef_url)
 
 #get data of contest that started, but has not ended yet.
