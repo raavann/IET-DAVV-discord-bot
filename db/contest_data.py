@@ -10,7 +10,7 @@ sqlite3.register_converter("bool", lambda v: bool(int(v)))
 
 try:
     cur.execute('''CREATE TABLE contest_data(
-        id text primarcy key,
+        id text primary key,
         link text,
         name text,
         start_time timestamp,
