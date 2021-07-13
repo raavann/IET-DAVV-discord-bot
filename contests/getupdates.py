@@ -35,12 +35,12 @@ async def get_updates(client):
         duration = 21600
         while(time.time() < timestart+duration):
             for dtime in time_list:
-                if( (dtime.time_ +timedelta(days=1,hours=2)) < datetime.now() < (dtime.time_ + timedelta(days=1)) and dtime.day1_rem == False):
+                if( (dtime.time_ -timedelta(days=1,hours=2)) < datetime.now() < (dtime.time_ - timedelta(days=1)) and dtime.day1_rem == False):
                     contest_data.update_rd1(dtime.id_,True)
                     dtime.day1_rem = True
                     em = embds.embed_1drem(contest_data.get_cont_by_id(dtime.id_),client.user.avatar_url)
                     await send_updates(em,client)
-                elif( (dtime.time_ +timedelta(minutes=90)) < datetime.now() < (dtime.time_ + timedelta(minutes=20))  and dtime.hour1_rem == False):
+                elif( (dtime.time_ -timedelta(minutes=90)) < datetime.now() < (dtime.time_ -timedelta(minutes=20))  and dtime.hour1_rem == False):
                     contest_data.update_rh1(dtime.id_,True)
                     dtime.hour1_rem = True
                     em = embds.embed_1hrem(contest_data.get_cont_by_id(dtime.id_),client.user.avatar_url)
