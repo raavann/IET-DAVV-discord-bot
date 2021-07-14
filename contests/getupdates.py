@@ -33,21 +33,26 @@ async def get_updates(client):
         timestart=time.time()
         duration = 21600
         while(time.time() < timestart+duration):
+            print('inside while')
             for dtime in time_list:
+                print('inside for..')
                 if( (dtime.time_ -timedelta(days=1,hours=3)) < datetime.now() < (dtime.time_ - timedelta(days=1)) and dtime.day1_rem == False):
                     contest_data.update_rd1(int(dtime.id_))
                     dtime.day1_rem = True
                     em = embds.embed_1drem(contest_data.get_cont_by_id(int(dtime.id_)),client.user.avatar_url)
+                    print('1d rem sending..')
                     await send_updates(em,client)
-                elif( (dtime.time_ -timedelta(minutes=90)) < datetime.now() < (dtime.time_ -timedelta(minutes=20))  and dtime.hour1_rem == False):
+                elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=20))  and dtime.hour1_rem == False):
                     contest_data.update_rh1(int(dtime.id_))
                     dtime.hour1_rem = True
                     em = embds.embed_1hrem(contest_data.get_cont_by_id(int(dtime.id_)),client.user.avatar_url)
+                    print('1h rem sending..')
                     await send_updates(em,client)
                 elif(datetime.now() > dtime.time_ and dtime.char_ == 'e'):
                     em = embds.embed_contest_ended(contest_data.get_cont_by_id(int(dtime.id_)))
                     await send_updates(em,client)
                     dtime.char_ = 'x' #garbage value so this dtime do not get to come here again
+                    print('contest ended..')
                     contest_data.remove_cont(int(dtime.id_))
-
-            await asyncio.sleep(3600)
+            print('outside for sleep 1h .. ', dtime)
+            await asyncio.sleep(300)
