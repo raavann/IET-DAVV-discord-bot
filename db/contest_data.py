@@ -53,23 +53,23 @@ def get_time_list():
     return timelist
 
 def get_rd1_by_id(id):
-    cur.execute("SELECT day1_rem FROM contest_data WHERE id=:id", {'id': id})
+    cur.execute("SELECT day1_rem FROM contest_data WHERE id=:id", {'id': int(id)})
     return cur.fetchone()[0]
 
 
 def get_rh1_by_id(id):
-    cur.execute("SELECT hour1_rem FROM contest_data WHERE id=:id", {'id': id})
+    cur.execute("SELECT hour1_rem FROM contest_data WHERE id=:id", {'id': int(id)})
     return cur.fetchone()[0]
 
-def update_rd1(id,val):
+def update_rd1(id):
     with con:
-        cur.execute("""UPDATE contest_data SET day1_rem = :val WHERE id = :id""",{'val': val, 'id': id})
+        cur.execute("""UPDATE contest_data SET day1_rem = :val WHERE id = :id""",{'val':True, 'id': int(id)})
 
-def update_rh1(id,val):
+def update_rh1(id):
     with con:
-        cur.execute("""UPDATE contest_data SET hour1_rem = :val WHERE id = :id""",{'val': val, 'id': id})
+        cur.execute("""UPDATE contest_data SET hour1_rem = :val WHERE id = :id""",{'val': True, 'id': int(id)})
 
 def remove_cont(id):
     with con:
         cur.execute("DELETE from contest_data WHERE id = :id",
-                  {'id': id})
+                  {'id': int(id)})
