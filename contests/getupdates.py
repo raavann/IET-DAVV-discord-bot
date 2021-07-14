@@ -35,7 +35,6 @@ async def get_updates(client):
         while(time.time() < timestart+duration):
             print('inside while')
             for dtime in time_list:
-                print('inside for..')
                 if( (dtime.time_ -timedelta(days=1,hours=3)) < datetime.now() < (dtime.time_ - timedelta(days=1)) and dtime.day1_rem == False):
                     contest_data.update_rd1(int(dtime.id_))
                     dtime.day1_rem = True
@@ -54,6 +53,6 @@ async def get_updates(client):
                     dtime.char_ = 'x' #garbage value so this dtime do not get to come here again
                     print('contest ended..',dtime)
                     contest_data.remove_cont(int(dtime.id_))
-            print('outside for sleep 15m .. ')
-            await asyncio.sleep(900)
+            print('outside for sleep 5m .. ')
+            await asyncio.sleep(300)
             print(datetime.now())
