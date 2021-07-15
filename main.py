@@ -12,7 +12,23 @@ discord_token = os.environ['discord_senpai_bot_secret_key']
 
 intents = discord.Intents.all()
 intents.members = True
-client = commands.Bot(command_prefix = 'senpai ',intents=intents)
+DEFAULT_PREFIX = "senpai "
+
+def get_prefix(bot_obj, message) -> str:
+    # a custom prefix can be retrieved with the guild's ID
+    try:
+        with open("prefixes.json", 'r') as f:
+            prefixes = json.load(f)
+
+        return prefixes[str(message.guild.id)]
+
+    except AttributeError:  # triggered when command is invoked in dms
+        return DEFAULT_PREFIX
+
+    except KeyError:  # triggered when the server prefix has never been changed
+        return DEFAULT_PREFIX
+    
+client = commands.Bot(command_prefix=get_prefix, intents=intents)
 client.remove_command("help")
 
 @client.event
@@ -36,8 +52,48 @@ async def on_guild_join(guild):
     embd.set_thumbnail(url=client.user.avatar_url)
     await guild.owner.send(embed=embd)
     await c.send(embed=hi_guild(guild))
+    
+@client.event
+async def on_guild_remove(guild):
+    try:
+        with open("prefixes.json", 'r') as f:
+            prefixes = json.load(f)
 
-################################COMMANDSS########################
+        prefixes.pop(str(guild.id))
+
+        with open("prefixes.json", 'w') as f:
+            json.dump(prefixes, f, indent=2)
+    except KeyError:  # the server never changed the default prefix
+        pass
+
+################################COMMANDS########################
+
+@client.command(aliases=["PREFIX", "Prefix", "pREFIX"])
+@has_permissions(administrator=True)
+async def prefix(ctx, new_prefix: str):
+
+    if ctx.guild is None:
+        await ctx.reply("**You cannot change the prefix outside of a server!**")
+        return
+
+    with open("prefixes.json", 'r') as f:
+        prefixes = json.load(f)
+
+    prefixes[str(ctx.guild.id)] = new_prefix
+
+    with open("prefixes.json", 'w') as f:
+        json.dump(prefixes, f, indent=2)
+
+    await ctx.send(f"**Prefix changed to {new_prefix}**")
+
+@prefix.error
+async def prefix_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.reply("**Incorrect usage!\n"
+                        f"Example: {get_prefix(client, ctx)}prefix .**")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.reply("**You do not have the permission to change the server prefix!**")
+
 @client.command(name = "alterchannel", aliases = ["announcement="])
 @commands.has_permissions(administrator = True)
 async def alterchannel(ctx, given_name):
