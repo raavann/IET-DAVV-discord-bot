@@ -31,7 +31,7 @@ async def get_updates(client):
             continue
 
         timestart=time.time()
-        duration = 21600
+        duration = 3600
         while(time.time() < timestart+duration):
             print('inside while')
             for dtime in time_list:
@@ -41,7 +41,7 @@ async def get_updates(client):
                     em = embds.embed_1drem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
                     print('1d rem sending..',dtime)
                     await send_updates(em,client)
-                elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=20))  and dtime.hour1_rem == False):
+                elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=2))  and dtime.hour1_rem == False):
                     contest_data.update_rh1((dtime.id_))
                     dtime.hour1_rem = True
                     em = embds.embed_1hrem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
