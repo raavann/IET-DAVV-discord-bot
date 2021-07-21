@@ -10,13 +10,14 @@ sqlite3.register_converter("bool", lambda v: bool(int(v)))
 
 try:
     cur.execute('''CREATE TABLE contest_data(
-        id text primary key,
+        id text,
         link text,
         name text,
         start_time timestamp,
         end_time timestamp,
         day1_rem bool,
-        hour1_rem bool
+        hour1_rem bool,
+        UNIQUE (id,start_time)
     )
     ''')
 except:
@@ -28,7 +29,11 @@ def insert_cont(cont):
         with con:
             cur.execute("INSERT INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
     except:
-        print('contest already exist')
+        with con:
+            cur.execute("DELETE from contest_data WHERE id = :id",
+                {'id': cont.id})
+            cur.execute("INSERT INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
+      
 
 #return Contest object
 def get_cont_by_id(id):
