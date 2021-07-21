@@ -3,7 +3,7 @@ from contests.data_class import Time_List
 from contests.data_class import Contest
 
 
-con = sqlite3.connect('database.db',detect_types=sqlite3.PARSE_DECLTYPES)
+con = sqlite3.connect('contest.db',detect_types=sqlite3.PARSE_DECLTYPES)
 cur = con.cursor()
 sqlite3.register_adapter(bool, int)
 sqlite3.register_converter("bool", lambda v: bool(int(v)))
