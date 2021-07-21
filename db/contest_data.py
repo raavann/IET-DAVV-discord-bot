@@ -30,10 +30,7 @@ def insert_cont(cont):
             cur.execute("INSERT INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
     except:
         with con:
-            cur.execute("DELETE from contest_data WHERE id = :id",
-                {'id': cont.id})
-            cur.execute("INSERT INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
-      
+            cur.execute("""UPDATE contest_data SET name=:nm, start_time=:st, end_time=:et WHERE id = :id""",{'nm':cont.name,'st':cont.start_time,'et':cont.end_time, 'id': cont.id})
 
 #return Contest object
 def get_cont_by_id(id):
