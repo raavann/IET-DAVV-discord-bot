@@ -10,7 +10,7 @@ sqlite3.register_converter("bool", lambda v: bool(int(v)))
 
 try:
     cur.execute('''CREATE TABLE contest_data(
-        id text,
+        id text primary key,
         link text,
         name text,
         start_time timestamp,
@@ -25,12 +25,8 @@ except:
 
 #inserts into database via Contest object
 def insert_cont(cont):
-    try:
-        with con:
-            cur.execute("INSERT INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
-    except:
-        with con:
-            cur.execute("""UPDATE contest_data SET name=:nm, start_time=:st, end_time=:et WHERE id = :id""",{'nm':cont.name,'st':cont.start_time,'et':cont.end_time, 'id': cont.id})
+    with con:
+        cur.execute("INSERT OR REPLACE INTO contest_data VALUES (:id, :link,:name,:st,:et,:d1,:h1)", {'id': cont.id, 'link': cont.link,'name':cont.name,'st':cont.start_time,'et':cont.end_time,'d1':cont.day1_rem,'h1':cont.hour1_rem })
 
 #return Contest object
 def get_cont_by_id(id):
