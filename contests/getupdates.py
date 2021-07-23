@@ -35,7 +35,7 @@ async def get_updates(client):
         while(time.time() < timestart+duration):
             print('inside while')
             for dtime in time_list:
-                if( (dtime.time_ -timedelta(days=1,hours=3)) < datetime.now() < (dtime.time_ - timedelta(days=1)) and dtime.day1_rem == False):
+                if( (dtime.time_ -timedelta(hours=28)) < datetime.now() < (dtime.time_ - timedelta(hours=22)) and dtime.day1_rem == False):
                     contest_data.update_rd1((dtime.id_))
                     dtime.day1_rem = True
                     em = embds.embed_1drem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
