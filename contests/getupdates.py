@@ -7,7 +7,6 @@ import contests.codeforces as codeforces
 import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
-import dscrd.embds as embds
 
 async def send_updates(emb,client):
     for c_id in server_data.get_all_chnls():
@@ -38,13 +37,13 @@ async def get_updates(client):
                 if( (dtime.time_ -timedelta(days=1,hours=3)) < datetime.now() < (dtime.time_ - timedelta(days=1)) and dtime.day1_rem == False):
                     contest_data.update_rd1((dtime.id_))
                     dtime.day1_rem = True
-                    em = embds.embed_1drem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
+                    em = embds.embed_1drem(contest_data.get_cont_by_id((dtime.id_)))
                     print('1d rem sending..',dtime)
                     await send_updates(em,client)
                 elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=2))  and dtime.hour1_rem == False):
                     contest_data.update_rh1((dtime.id_))
                     dtime.hour1_rem = True
-                    em = embds.embed_1hrem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
+                    em = embds.embed_1hrem(contest_data.get_cont_by_id((dtime.id_)))
                     print('1h rem sending..',dtime)
                     await send_updates(em,client)
                 elif(datetime.now() > dtime.time_ and dtime.char_ == 'e'):
