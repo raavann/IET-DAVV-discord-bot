@@ -21,19 +21,17 @@ def random_cheer():
 def random_greeting():
     return random.choice(greetings)
 
-def embed_1drem(cont,avtr):
+def embed_1drem(cont):
     desc = random_salutation() + '\n{name} will start tomorrow @{st}! \n[Click here]({link}) to know more! \n{cheer}'.format(name=cont.name, link= cont.link, st = str(cont.start_time.strftime("%I:%M %p")).lower(),cheer= random_greeting())
     embd = Embed(title = "Contest update!", description=desc,colour=Colour.dark_blue())
     embd.set_thumbnail (url = logo[cont.link[16]])
-    embd.set_footer(text = str(random_cheer()), icon_url = avtr)
    
     return embd
 
-def embed_1hrem(cont,avtr):
+def embed_1hrem(cont):
     desc = random_salutation() + '\n{name} will start soon @{st}! \n[Click here]({link}) to join the contest! \n{cheer}'.format(name=cont.name, link=cont.link,st=str(cont.start_time.strftime("%I:%M %p")).lower(),cheer= random_greeting())
     embd = Embed(title = "Contest update!", description = desc,colour= Colour.green())
     embd.set_thumbnail(url=logo[cont.link[16]] )
-    embd.set_footer(text = str(random_cheer()), icon_url = avtr)
 
     return embd
 
