@@ -30,7 +30,7 @@ def embed_1drem(cont,avtr):
 
 def embed_1hrem(cont,avtr):
     desc = random_salutation() + '\n{name} will start soon @{st}! \n[Click here]({link}) to join the contest! \n{cheer}'.format(name=cont.name, link=cont.link,st=str(cont.start_time.strftime("%I:%M %p")).lower(),cheer= random_greeting())
-    embd = Embed(title = "Contest starts soon!", description = desc,colour= Colour.green())
+    embd = Embed(title = "Contest about to start!", description = desc,colour= Colour.green())
     embd.set_thumbnail(url=logo[cont.link[16]] )
     embd.set_footer(text = str(random_cheer()), icon_url = avtr)
 
