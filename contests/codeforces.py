@@ -13,7 +13,7 @@ def get_upcoming_contests():
         if(item['phase'] == "FINISHED"):
             break
         lenco = timedelta( seconds =item['durationSeconds'])
-        st = datetime.fromtimestamp(item['startTimeSeconds'])
+        st = datetime.utcfromtimestamp(item['startTimeSeconds']) + timedelta(minutes=330) #UTC + 330minutes (ie 5:30H)
         et = st+lenco
         x = str(item['id'])
         link = "".join(['https://www.codeforces.com/contests/',x])
