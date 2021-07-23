@@ -35,7 +35,6 @@ async def get_updates(client):
         while(time.time() < timestart+duration):
             print('inside while')
             for dtime in time_list:
-                print(dtime)
                 if( (dtime.time_ -timedelta(hours=28)) < datetime.now() < (dtime.time_ - timedelta(hours=22)) and dtime.day1_rem == False):
                     contest_data.update_rd1((dtime.id_))
                     dtime.day1_rem = True
