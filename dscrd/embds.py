@@ -21,7 +21,7 @@ def random_cheer():
 def random_greeting():
     return random.choice(greetings)
 
-def embed_1drem(cont,avtr):
+def embed_1drem(cont):
     desc = random_salutation() + '\n{name} will start tomorrow @{st}! \n[Click here]({link}) to know more! \n{cheer}'.format(name=cont.name, link= cont.link, st = str(cont.start_time.strftime("%I:%M %p")).lower(),cheer= random_greeting())
     embd = Embed(title = "Contest starts tomorrow!", description=desc,colour=Colour.dark_blue())
     embd.set_thumbnail (url = logo[cont.link[16]])
