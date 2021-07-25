@@ -2,27 +2,49 @@ import time
 from datetime import datetime, timedelta
 import asyncio
 
+import discord
+
 import contests.codechef as codechef
 import contests.codeforces as codeforces
 import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
 
-async def send_updates(emb,client):
+async def send_updates(emb,client : discord.Client):
     await client.wait_until_ready()
+    asyncio.sleep(0.3)
     for c_id in server_data.get_all_chnls():
         await client.wait_until_ready()
+        asyncio.sleep(0.2)
         channel= client.get_channel(int(c_id))
-        await channel.send(embed=emb)
+        if channel == None:
+            serv_id = server_data.get_serv_by_chnl(c_id)
+            server = client.get_guild(int(serv_id))
+            if server == None:
+                server_data.remove_serv(serv_id)
+            else:
+                for c in server.text_channels:
+                    if (c.permissions_for(server.me).send_messages==True):
+                        server_data.update_serv(serv_id,c.id)
+                        break
+        else:
+            await channel.send(embed=emb)
+    
 
 async def get_updates(client):
-    
+
     while(True):
         codechef.get_upcoming_contests()
         codeforces.get_upcoming_contests()
 
         #aleady sorted by time, has Time_List objects
         time_list = contest_data.get_time_list()
+
+        global next_contest
+        for t in time_list:
+            if t.char_ == 's':
+                next_contest=contest_data.get_cont_by_id(t.id_)
+                break
 
         if len(time_list)==0:
             print('no contest')
@@ -56,3 +78,7 @@ async def get_updates(client):
             print('outside for sleep 5m .. ')
             await asyncio.sleep(300)
             print(datetime.now())
+
+
+def get_next_contest():
+    return next_contest

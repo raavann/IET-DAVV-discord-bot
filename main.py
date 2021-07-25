@@ -4,9 +4,11 @@ import discord
 from discord.ext import commands
 
 from contests.getupdates import get_updates
+from contests.getupdates import get_next_contest
 import db.server_data as server_data
 import dscrd.prw as prw
 from dscrd.embds import hi_guild
+from dscrd.embds import embd_next_contest
 
 discord_token = os.environ['discord_senpai_bot_secret_key']
 
@@ -64,13 +66,18 @@ async def check_channel(ctx):
 async def meme(ctx):
     msg = await prw.send_meme()
     await ctx.channel.send(msg)
+
+@client.command(name='update', aliases=["nextcontest"])
+async def update(ctx):
+    em =  embd_next_contest( get_next_contest() )
+    await ctx.channel.send(embed=em)
 ############################################################################
 
 @client.group(invoke_without_command = True)
 async def help(ctx):
-    em= discord.Embed(title="Help!",description="Hi there, my prefix is `'senpai '`.\nFollowing are all the commands, use `senpai help <command>` for extended information on a command.", color=ctx.author.color)
+    em= discord.Embed(title="Help!",description="Hi there, my prefix is `'senpai '`.\nFollowing are all the commands.\nUse `senpai help <command>` for extended information on a command.", color=ctx.author.color)
     em.add_field(name="Admin commands: ", value="checkchannel, alterchannel")
-    em.add_field(name="General commands: ",value = "meme")
+    em.add_field(name="General commands: ",value = "meme update")
 
     await ctx.send(embed=em)
 
@@ -93,6 +100,13 @@ async def meme(ctx):
     em=discord.Embed(title="meme", description="Returns a meme on programming/coding", color=ctx.author.color)
     em.add_field(name="Syntax", value="`senpai meme`")
     em.add_field(name = "aliases", value="bleh, agh \n*Syntax* `senpai bleh` `senpai agh`")
+    await ctx.send(embed=em)
+
+@help.command()
+async def update(ctx):
+    em=discord.Embed(title="update", description="Returns the next recent Contest.", color=ctx.author.color)
+    em.add_field(name="Syntax", value="`senpai update`")
+    em.add_field(name = "aliases", value="nextcontest \n*Syntax* `senpai next contest`")
     await ctx.send(embed=em)
 
 @client.event 

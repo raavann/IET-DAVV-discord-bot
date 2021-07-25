@@ -22,6 +22,11 @@ def get_chnl_by_serv(serv):
     #returns integer value
     return cur.fetchone()[0]
 
+def get_serv_by_chnl(chnl):
+    cur.execute("SELECT server_id FROM server_data WHERE channel_id=:chnl", {'chnl': chnl})
+    #returns integer value
+    return cur.fetchone()[0]
+
 def update_serv(serv, chnl):
     with con:
         cur.execute("""UPDATE server_data SET channel_id = :chnl
