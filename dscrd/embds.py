@@ -53,3 +53,11 @@ def hi_guild(gld):
     embd.add_field(name="My Job!", value="I'll be sending regular updates on Codechef and Codeforces Contest on the channel specified by admin.\nType `senpai help` to know more.")
 
     return embd
+
+def embd_next_contest(cont,avtr):
+    desc='{salut}\nThe next contest, i.e. {cn}, will start on {dt}.\n[Click here]({link}) to know more!'.format(salut=random_salutation(),cn = cont.name, dt = cont.start_time.strftime("%d %b @%I:%M %p"),link=cont.link)
+    embd = Embed(title="Upcoming contest!", description=desc,colour= Colour.purple())
+    embd.set_thumbnail (url = logo[cont.link[16]])
+
+    embd.set_footer(text = str(random_greeting()), icon_url = avtr)
+    return embd
