@@ -10,7 +10,9 @@ import db.server_data as server_data
 import dscrd.embds as embds
 
 async def send_updates(emb,client):
+    await client.wait_until_ready()
     for c_id in server_data.get_all_chnls():
+        await client.wait_until_ready()
         channel= client.get_channel(int(c_id))
         await channel.send(embed=emb)
 
