@@ -16,9 +16,7 @@ async def send_updates(emb,client):
         await channel.send(embed=emb)
 
 async def get_updates(client):
-    # [code] -> [link, name, start_T, end_T]
-    codechef.create_browser()
-
+    
     while(True):
         codechef.get_upcoming_contests()
         codeforces.get_upcoming_contests()
