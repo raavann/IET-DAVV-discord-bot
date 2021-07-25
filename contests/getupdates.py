@@ -11,11 +11,8 @@ import db.contest_data as contest_data
 import db.server_data as server_data
 
 async def send_updates(emb,client : discord.Client):
-    await client.wait_until_ready()
-    asyncio.sleep(0.3)
     for c_id in server_data.get_all_chnls():
         await client.wait_until_ready()
-        asyncio.sleep(0.2)
         channel= client.get_channel(int(c_id))
         if channel == None:
             serv_id = server_data.get_serv_by_chnl(c_id)
@@ -42,7 +39,7 @@ async def get_updates(client):
 
         global next_contest
         for t in time_list:
-            if t.char_ == 's':
+            if t.char_ == 's' and datetime.now()<t.time_:
                 next_contest=contest_data.get_cont_by_id(t.id_)
                 break
 

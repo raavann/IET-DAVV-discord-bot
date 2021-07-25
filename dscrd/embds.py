@@ -54,7 +54,10 @@ def hi_guild(gld):
 
     return embd
 
-def embd_next_contest(cont):
-    embd = Embed(title="Next nearest contest!", description="{salut},\n{cn} will start on {dt}.\n{g}".format(salut=random_salutation(),cn = cont.name, date = cont.start_time.strftime("%d %b @%I:%M %p"),g=random_greeting()),colour= Colour.random())
+def embd_next_contest(cont,avtr):
+    desc='{salut}\nThe next contest, i.e. {cn}, will start on {dt}.\n[Click here]({link}) to know more!'.format(salut=random_salutation(),cn = cont.name, dt = cont.start_time.strftime("%d %b @%I:%M %p"),link=cont.link)
+    embd = Embed(title="Upcoming contest!", description=desc,colour= Colour.purple())
+    embd.set_thumbnail (url = logo[cont.link[16]])
 
+    embd.set_footer(text = str(random_greeting()), icon_url = avtr)
     return embd

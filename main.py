@@ -23,6 +23,10 @@ async def on_ready():
     await get_updates(client)
 
 @client.event
+async def on_guild_remove(guild):
+    server_data.remove_serv(guild.id)
+
+@client.event
 async def on_guild_join(guild):
     channel_values = ['announcement','announcements','general']
     chnl =None
@@ -69,9 +73,10 @@ async def meme(ctx):
 
 @client.command(name='update', aliases=["nextcontest"])
 async def update(ctx):
-    em =  embd_next_contest( get_next_contest() )
-    await ctx.channel.send(embed=em)
-############################################################################
+    em =  embd_next_contest( get_next_contest(),ctx.guild.me.avatar_url )
+    await ctx.send(embed=em)
+
+#@---------------------------------------------------------------------------------------------
 
 @client.group(invoke_without_command = True)
 async def help(ctx):
