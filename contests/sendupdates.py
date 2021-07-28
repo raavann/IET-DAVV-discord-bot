@@ -13,8 +13,12 @@ async def send_updates(emb,client : discord.Client):
     for serv in client.guilds:
         await client.wait_until_ready()
         c_id = server_data.get_chnl_by_serv(serv.id)
-
-        channel= client.get_channel(int(c_id))
+        try:
+            channel= client.get_channel(int(c_id))
+        except:
+            server_data.insert_serv(serv.id,1324)
+            channel = None
+    
         if channel == None:
             for c in serv.text_channels:
                 if (c.permissions_for(serv.me).send_messages==True):
