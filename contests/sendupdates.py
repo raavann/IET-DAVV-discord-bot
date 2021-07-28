@@ -4,35 +4,35 @@ import asyncio
 
 import discord
 
-import contests.codechef as codechef
-import contests.codeforces as codeforces
+from contests.getcontests import get_upcoming_contests
 import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
 
 async def send_updates(emb,client : discord.Client):
-    for c_id in server_data.get_all_chnls():
+    for serv in client.guilds:
         await client.wait_until_ready()
-        channel= client.get_channel(int(c_id))
+        c_id = server_data.get_chnl_by_serv(serv.id)
+        try:
+            channel= client.get_channel(int(c_id))
+        except:
+            server_data.insert_serv(serv.id,1324)
+            channel = None
+    
         if channel == None:
-            serv_id = server_data.get_serv_by_chnl(c_id)
-            server = client.get_guild(int(serv_id))
-            if server == None:
-                server_data.remove_serv(serv_id)
-            else:
-                for c in server.text_channels:
-                    if (c.permissions_for(server.me).send_messages==True):
-                        server_data.update_serv(serv_id,c.id)
-                        break
+            for c in serv.text_channels:
+                if (c.permissions_for(serv.me).send_messages==True):
+                    server_data.update_serv(serv.id,c.id)
+                    await c.send(embed=emb)
+                    break
         else:
             await channel.send(embed=emb)
     
 
-async def get_updates(client):
+async def main_updates(client):
 
     while(True):
-        codechef.get_upcoming_contests()
-        codeforces.get_upcoming_contests()
+        get_upcoming_contests()
 
         #aleady sorted by time, has Time_List objects
         time_list = contest_data.get_time_list()
@@ -54,23 +54,23 @@ async def get_updates(client):
             print('inside while')
             for dtime in time_list:
                 if( (dtime.time_ -timedelta(hours=28)) < datetime.now() < (dtime.time_ - timedelta(hours=22)) and dtime.day1_rem == False):
-                    contest_data.update_rd1((dtime.id_))
+                    contest_data.update_rd1(dtime.id_)
                     dtime.day1_rem = True
-                    em = embds.embed_1drem(contest_data.get_cont_by_id((dtime.id_)))
+                    em = embds.embed_1drem(contest_data.get_cont_by_id(dtime.id_))
                     print('1d rem sending..',dtime)
                     await send_updates(em,client)
                 elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=2))  and dtime.hour1_rem == False):
-                    contest_data.update_rh1((dtime.id_))
+                    contest_data.update_rh1(dtime.id_)
                     dtime.hour1_rem = True
-                    em = embds.embed_1hrem(contest_data.get_cont_by_id((dtime.id_)),client.user.avatar_url)
+                    em = embds.embed_1hrem(contest_data.get_cont_by_id(dtime.id_),client.user.avatar_url)
                     print('1h rem sending..',dtime)
                     await send_updates(em,client)
                 elif(datetime.now() > dtime.time_ and dtime.char_ == 'e'):
-                    em = embds.embed_contest_ended(contest_data.get_cont_by_id((dtime.id_)))
+                    em = embds.embed_contest_ended(contest_data.get_cont_by_id(dtime.id_))
                     await send_updates(em,client)
                     dtime.char_ = 'x' #garbage value so this dtime do not get to come here again
                     print('contest ended..',dtime)
-                    contest_data.remove_cont((dtime.id_))
+                    contest_data.remove_cont(dtime.id_)
 
             print('outside for sleep 5m .. ')
             await asyncio.sleep(300)
