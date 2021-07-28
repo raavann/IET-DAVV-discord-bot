@@ -3,12 +3,12 @@ import os
 import discord
 from discord.ext import commands
 
-from contests.getupdates import get_updates
-from contests.getupdates import get_next_contest
 import db.server_data as server_data
 import dscrd.prw as prw
 from dscrd.embds import hi_guild
 from dscrd.embds import embd_next_contest
+
+from contests.sendupdates import main_updates, get_next_contest
 
 discord_token = os.environ['discord_senpai_bot_secret_key']
 
@@ -20,7 +20,7 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print('bot is running..')
-    await get_updates(client)
+    await main_updates(client)
 
 @client.event
 async def on_guild_remove(guild):

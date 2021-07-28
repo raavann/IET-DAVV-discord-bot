@@ -4,7 +4,7 @@ from contests.data_class import Contest
 from urllib.request import urlopen
 from db.contest_data import insert_cont
 
-def get_upcoming_contests():
+def get_codeforces_contests():
     url = "https://codeforces.com/api/contest.list"
     response = urlopen(url)
     data_json = json.loads(response.read())

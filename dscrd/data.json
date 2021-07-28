@@ -83,8 +83,9 @@
 
     "logo" : 
     {
-        "c" : "https://media-exp3.licdn.com/dms/image/C4E0BAQG3aX5eHyLUJA/company-logo_200_200/0/1625214538690?e=1633564800&v=beta&t=qU8D_5Q0joQaJ41y8kLHUOPKzl9zOuI9xMcHRlQyjwg",
-        "f" : "https://media-exp3.licdn.com/dms/image/C510BAQH9HO8sfdUS6w/company-logo_200_200/0/1565976260956?e=1633564800&v=beta&t=uJgQa36m1VivpEGY3X3RBBE1RL-4fa12QUX6oGb6fGU"
+        "codechef" : "https://media-exp3.licdn.com/dms/image/C4E0BAQG3aX5eHyLUJA/company-logo_200_200/0/1625214538690?e=1633564800&v=beta&t=qU8D_5Q0joQaJ41y8kLHUOPKzl9zOuI9xMcHRlQyjwg",
+        "codeforc" : "https://media-exp3.licdn.com/dms/image/C510BAQH9HO8sfdUS6w/company-logo_200_200/0/1565976260956?e=1633564800&v=beta&t=uJgQa36m1VivpEGY3X3RBBE1RL-4fa12QUX6oGb6fGU",
+        "leetcode" : "https://assets.leetcode.com/static_assets/public/webpack_bundles/images/logo-dark.e99485d9b.svg"
     },
 
     "ended" : 

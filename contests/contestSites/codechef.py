@@ -6,7 +6,7 @@ from datetime import datetime
 import contests.data_class as data_class
 import db.contest_data as contest_data
 
-def get_upcoming_contests():
+def get_codechef_contests():
     codechef_url = 'https://www.codechef.com/contests'
 
     chrome_options = Options()
