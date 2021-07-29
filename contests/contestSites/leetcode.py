@@ -12,7 +12,7 @@ async def get_leetcode_contests():
 
     chrome_options = Options()
 
-    asyncio.sleep(1)
+    await asyncio.sleep(1)
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
@@ -20,18 +20,18 @@ async def get_leetcode_contests():
     
     leetcode_browser = webdriver.Chrome(options=chrome_options)
     leetcode_browser.get(leetcode_url)
-    asyncio.sleep(1)
+    await asyncio.sleep(1)
 
     html = leetcode_browser.page_source
     leetcode_page = BeautifulSoup(html,'lxml')
-    asyncio.sleep(1)
+    await asyncio.sleep(1)
 
     primary = leetcode_page.find(class_ = 'contest-card contest-panel primary-contest')
     biweekly = leetcode_page.find(class_ = 'contest-card contest-panel biweekly-contest')
     conts = [primary,biweekly]
 
     for cont in conts:
-        asyncio.sleep(1)
+        await asyncio.sleep(1)
         name = cont.find(class_='card-title false').text
         code_a = name.split(" ")
         code = code_a[0]+code_a[2]
