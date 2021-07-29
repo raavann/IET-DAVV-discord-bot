@@ -6,21 +6,26 @@ from datetime import datetime
 import contests.data_class as data_class
 import db.contest_data as contest_data
 
-def get_codechef_contests():
+import asyncio
+
+async def get_codechef_contests():
     codechef_url = 'https://www.codechef.com/contests'
 
     chrome_options = Options()
-    
+    asyncio.sleep(1)
+
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
+    asyncio.sleep(1)
         
     codechef_browser = webdriver.Chrome(options=chrome_options)
     codechef_browser.get(codechef_url)
 
     html = codechef_browser.page_source
     codechef_page = BeautifulSoup(html,'lxml')
+    asyncio.sleep(1)
 
     table_html = codechef_page.find(id = 'future-contests-data')
     table_rows = table_html.find_all('tr')

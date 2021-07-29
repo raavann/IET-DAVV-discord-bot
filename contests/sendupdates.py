@@ -36,7 +36,7 @@ async def send_updates(emb,client : discord.Client):
 async def main_updates(client):
 
     while(True):
-        get_upcoming_contests()
+        await get_upcoming_contests()
 
         #aleady sorted by time, has Time_List objects
         time_list = contest_data.get_time_list()
