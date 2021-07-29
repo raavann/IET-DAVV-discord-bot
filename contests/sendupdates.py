@@ -12,21 +12,25 @@ import db.server_data as server_data
 async def send_updates(emb,client : discord.Client):
     for serv in client.guilds:
         await client.wait_until_ready()
-        c_id = server_data.get_chnl_by_serv(serv.id)
+
         try:
+            c_id = server_data.get_chnl_by_serv(serv.id)
             channel= client.get_channel(int(c_id))
         except:
-            server_data.insert_serv(serv.id,1324)
             channel = None
     
         if channel == None:
             for c in serv.text_channels:
                 if (c.permissions_for(serv.me).send_messages==True):
-                    server_data.update_serv(serv.id,c.id)
-                    await c.send(embed=emb)
+                    server_data.insert_serv(serv.id,c.id)
+                    await c.send('Your announcement settings has just been changed because of permission failure.\nAnnouncements will now be sent on this channel onwards.')
                     break
         else:
-            await channel.send(embed=emb)
+            try:
+                await channel.send(embed=emb)
+            except:
+                print('can not send update')
+
     
 
 async def main_updates(client):

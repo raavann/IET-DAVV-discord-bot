@@ -15,7 +15,7 @@ except:
 
 def insert_serv(serv,chnl):
     with con:
-        cur.execute("INSERT INTO server_data VALUES (:server_id, :channel_id)", {'server_id': serv, 'channel_id': chnl })
+        cur.execute("INSERT OR REPLACE INTO server_data VALUES (:server_id, :channel_id)", {'server_id': serv, 'channel_id': chnl })
 
 def get_chnl_by_serv(serv):
     cur.execute("SELECT channel_id FROM server_data WHERE server_id=:serv", {'serv': serv})
