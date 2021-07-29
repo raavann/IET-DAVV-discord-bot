@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+import asyncio
+
 from contests.data_class import Contest
 from db.contest_data import insert_cont
 
@@ -15,18 +17,23 @@ def get_leetcode_contests():
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
+    
+    await asyncio.sleep(3)
 
     leetcode_browser = webdriver.Chrome(options=chrome_options)
     leetcode_browser.get(leetcode_url)
 
     html = leetcode_browser.page_source
     leetcode_page = BeautifulSoup(html,'lxml')
+    
+    await asyncio.sleep(4)
 
     primary = leetcode_page.find(class_ = 'contest-card contest-panel primary-contest')
     biweekly = leetcode_page.find(class_ = 'contest-card contest-panel biweekly-contest')
     conts = [primary,biweekly]
 
     for cont in conts:
+        await asyncio.sleep(2)
         name = cont.find(class_='card-title false').text
         code_a = name.split(" ")
         code = code_a[0]+code_a[2]
