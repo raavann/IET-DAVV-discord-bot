@@ -12,7 +12,6 @@ async def get_codechef_contests():
     codechef_url = 'https://www.codechef.com/contests'
 
     chrome_options = Options()
-    await asyncio.sleep(1)
 
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -22,10 +21,10 @@ async def get_codechef_contests():
         
     codechef_browser = webdriver.Chrome(options=chrome_options)
     codechef_browser.get(codechef_url)
+    await asyncio.sleep(3)
 
     html = codechef_browser.page_source
     codechef_page = BeautifulSoup(html,'lxml')
-    await asyncio.sleep(1)
 
     table_html = codechef_page.find(id = 'future-contests-data')
     table_rows = table_html.find_all('tr')

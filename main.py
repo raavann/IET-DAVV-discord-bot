@@ -1,4 +1,4 @@
-#from keep_alive import keep_alive
+import asyncio
 import os
 import discord
 from discord.ext import commands
@@ -20,7 +20,6 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print('bot is running..')
-    await main_updates(client)
 
 @client.event
 async def on_guild_remove(guild):
@@ -121,6 +120,13 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=em)
 
 
-#keep_alive()
+async def background():
+    await client.wait_until_ready()
+    await asyncio.sleep(5)
+    while not client.is_closed():
+        await main_updates(client)
+        print('done executinig main_updates now sleep 30s')
+        await asyncio.sleep(30)
 
+client.loop.create_task(background())
 client.run(discord_token)
