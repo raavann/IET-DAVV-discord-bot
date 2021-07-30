@@ -3,17 +3,19 @@ from datetime import datetime, timedelta
 import asyncio
 
 import discord
+from discord.embeds import Embed
 
 from contests.getcontests import get_upcoming_contests
 import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
 
-def set_new_channel(serv : discord.Guild):
+async def set_new_channel(serv : discord.Guild,emb):
     for c in serv.text_channels:
         if (c.permissions_for(serv.me).send_messages==True):
             server_data.insert_serv(serv.id, c.id)
-            c.send('Your announcement settings has just been changed due to permission issues, announcements will be sent on this channel fom now on.')
+            await c.send('Your announcement settings has just been changed due to permission issues, announcements will be sent on this channel fom now on.')
+            await c.send(embed=emb)
             return
     
     server_data.remove_serv(serv.id)
@@ -31,12 +33,12 @@ async def send_updates(emb,client : discord.Client):
             channel = None
     
         if channel == None:
-            set_new_channel(serv)
+            set_new_channel(serv,emb)
         else:
             try:
                 await channel.send(embed=emb)
             except:
-                set_new_channel(serv)
+                set_new_channel(serv,emb)
 
     
 
