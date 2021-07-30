@@ -9,10 +9,21 @@ import dscrd.embds as embds
 import db.contest_data as contest_data
 import db.server_data as server_data
 
+def set_new_channel(serv : discord.Guild):
+    for c in serv.text_channels:
+        if (c.permissions_for(serv.me).send_messages==True):
+            server_data.insert_serv(serv.id, c.id)
+            c.send('Your announcement settings has just been changed due to permission issues, announcements will be sent on this channel fom now on.')
+            return
+    
+    server_data.remove_serv(serv.id)
+    return
+
 async def send_updates(emb,client : discord.Client):
+    await asyncio.sleep(3)
     for serv in client.guilds:
         await client.wait_until_ready()
-
+        await asyncio.sleep(1)
         try:
             c_id = server_data.get_chnl_by_serv(serv.id)
             channel= client.get_channel(int(c_id))
@@ -20,21 +31,16 @@ async def send_updates(emb,client : discord.Client):
             channel = None
     
         if channel == None:
-            for c in serv.text_channels:
-                if (c.permissions_for(serv.me).send_messages==True):
-                    server_data.insert_serv(serv.id,c.id)
-                    await c.send('Your announcement settings has just been changed because of permission failure.\nAnnouncements will now be sent on this channel onwards.')
-                    break
+            set_new_channel(serv)
         else:
             try:
                 await channel.send(embed=emb)
             except:
-                print('can not send update')
+                set_new_channel(serv)
 
     
 
 async def main_updates(client):
-
     while(True):
         await get_upcoming_contests()
 
