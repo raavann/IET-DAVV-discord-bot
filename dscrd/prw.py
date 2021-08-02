@@ -5,6 +5,17 @@ import random
 cl_id = os.environ['praw_clientid']
 cl_sec = os.environ['praw_secret']
 
+def isMeme(submission):
+    '''
+    Function that checks if the reddit submission is a meme or garbage.
+
+    Parameters:
+        submisson: reddit submisson from praw's ListingGenerator
+    '''
+    if submission.url[-4:-3] == '.':
+        return True
+    return False
+
 async def send_meme():
     reddit = asyncpraw.Reddit(
         client_id=cl_id,
@@ -12,16 +23,21 @@ async def send_meme():
         user_agent="raavnnn",
     )
 
-    meme_1 = await reddit.subreddit('ProgrammerHumor')
-    meme_2 = await reddit.subreddit('codinghumor')
+    # list of subreddits from which you wanna get your memes from
+    subreddits = ['ProgrammerHumor', 'codinghumor']
 
-    options = [meme_1.controversial, meme_1.hot, meme_1.new, meme_1.rising,
-        meme_1.top, meme_2.controversial, meme_2.hot, meme_2.new, meme_2.rising, meme_2.top]
+    # making subreddit instaces using praw
+    subredditInstances = [await reddit.subreddit(subreddit) for subreddit in subreddits]
 
-    choosen = random.choice(options)
-    urls=[]
-    async for item in choosen(limit=10):
-        if(item.url[-4:-3] == '.'):
-            urls.append(str(item.url))
+    # getting subreddit category objects
+    subredditCategories = []
+    for subredditInstance in subredditInstances:
+        subredditCategories += [subredditInstance.controversial, subredditInstance.hot, subredditInstance.new, subredditInstance.rising]
 
-    return random.choice(urls)
+    # selecting random subreddit category
+    randomSubredditCategory = random.choice(subredditCategories)
+
+    # storing only image URLs
+    memeURLs=[str(submission.url) async for submission in randomSubredditCategory(limit = 20) if not submission.over_18 and isMeme(submission)]
+
+    return random.choice(memeURLs)
