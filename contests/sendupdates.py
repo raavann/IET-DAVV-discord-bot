@@ -14,13 +14,13 @@ async def set_new_channel(serv : discord.Guild,emb):
     for c in serv.text_channels:
         if (c.permissions_for(serv.me).send_messages==True):
             server_data.insert_serv(serv.id, c.id)
-            print('new server data inserted', serv, c,datetime.now())
+
             await c.send('Your announcement settings has just been changed due to permission issues, announcements will be sent on this channel fom now on.')
             await c.send(embed=emb)
             return
     
     server_data.remove_serv(serv.id)
-    print('server removed', serv,datetime.now())
+
     return
 
 async def send_updates(emb,client : discord.Client):
@@ -39,7 +39,6 @@ async def send_updates(emb,client : discord.Client):
         else:
             try:
                 await channel.send(embed=emb)
-                print('sending message without problem', channel, datetime.now())
             except:
                 await set_new_channel(serv,emb)
 
@@ -60,30 +59,24 @@ async def main_updates(client):
     timestart=time.time()
     duration = 3600
     while(time.time() < timestart+duration):
-        print('inside while')
         for dtime in time_list:
             if( (dtime.time_ -timedelta(hours=28)) < datetime.now() < (dtime.time_ - timedelta(hours=22)) and dtime.day1_rem == False):
                 contest_data.update_rd1(dtime.id_)
                 dtime.day1_rem = True
                 em = embds.embed_1drem(contest_data.get_cont_by_id(dtime.id_))
-                print('1d rem sending..',dtime)
                 await send_updates(em,client)
             elif( (dtime.time_ -timedelta(minutes=50)) < datetime.now() < (dtime.time_ -timedelta(minutes=2))  and dtime.hour1_rem == False):
                 contest_data.update_rh1(dtime.id_)
                 dtime.hour1_rem = True
                 em = embds.embed_1hrem(contest_data.get_cont_by_id(dtime.id_),client.user.avatar_url)
-                print('1h rem sending..',dtime)
                 await send_updates(em,client)
             elif(datetime.now() > dtime.time_ and dtime.char_ == 'e'):
                 em = embds.embed_contest_ended(contest_data.get_cont_by_id(dtime.id_))
                 await send_updates(em,client)
                 dtime.char_ = 'x' #garbage value so this dtime do not get to come here again
-                print('contest ended..',dtime)
                 contest_data.remove_cont(dtime.id_)
 
-        print('outside for sleep 5m .. ')
         await asyncio.sleep(300)
-        print(datetime.now())
 
 
 def get_next_contest():
