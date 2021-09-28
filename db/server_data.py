@@ -10,7 +10,7 @@ try:
     )
     ''')
 except:
-    print('table already exists')
+    pass
 
 
 def insert_serv(serv,chnl):
