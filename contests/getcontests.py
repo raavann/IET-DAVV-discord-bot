@@ -10,17 +10,17 @@ async def get_upcoming_contests():
         get_codeforces_contests()
         await asyncio.sleep(3)
     except:
-        print('problem in codeforces', datetime.now() )
+        pass
 
     try:
         await get_codechef_contests()
         await asyncio.sleep(3)
     except:
-        print('problem in codechef', datetime.now() )
+        pass
 
     try:
         await get_leetcode_contests()
         await asyncio.sleep(5)
     except:
-        print('problem in leetcode', datetime.now() )
+        pass
       
