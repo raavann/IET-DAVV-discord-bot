@@ -21,7 +21,7 @@ try:
     )
     ''')
 except:
-    print('table exists')
+    pass
 
 #inserts into database via Contest object
 def insert_cont(cont):
